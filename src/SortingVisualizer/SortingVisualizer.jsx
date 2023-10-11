@@ -14,7 +14,7 @@ const NUMBER_OF_ARRAY_BARS = 325;
 const PRIMARY_COLOR = 'purple';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = 'black';
+const SECONDARY_COLOR = 'black'
 
 export default function SortingVisualizer() {
 
