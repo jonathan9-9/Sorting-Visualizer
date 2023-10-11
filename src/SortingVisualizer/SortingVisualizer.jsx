@@ -5,7 +5,7 @@ import './SortingVisualizer.css';
 import { useRef,useEffect } from 'react';
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 1;
+const ANIMATION_SPEED_MS = 5;
 
 // Change this value for the number of bars (value) in the array.
 const NUMBER_OF_ARRAY_BARS = 325;
@@ -14,7 +14,7 @@ const NUMBER_OF_ARRAY_BARS = 325;
 const PRIMARY_COLOR = 'purple';
 
 // This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = 'black'
+const SECONDARY_COLOR = 'black';
 
 export default function SortingVisualizer() {
 
@@ -24,8 +24,11 @@ export default function SortingVisualizer() {
 
   useEffect(() => {
     resetArray();
-    arrayBarsRef.current = document.getElementsByClassName('array-bar');
   }, []);
+
+  useEffect(() => {
+    arrayBarsRef.current = document.getElementsByClassName('array-bar');
+  }, [array])
 
   function resetArray() {
     const array = [];
@@ -123,15 +126,15 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function arraysAreEqual(arrayOne, arrayTwo) {
-  if (arrayOne.length !== arrayTwo.length) return false;
-  for (let i = 0; i < arrayOne.length; i++) {
-    if (arrayOne[i] !== arrayTwo[i]) {
-      return false;
-    }
-  }
-  return true;
-}
+// function arraysAreEqual(arrayOne, arrayTwo) {
+//   if (arrayOne.length !== arrayTwo.length) return false;
+//   for (let i = 0; i < arrayOne.length; i++) {
+//     if (arrayOne[i] !== arrayTwo[i]) {
+//       return false;
+//     }
+//   }
+//   return true;
+// }
 
 
 

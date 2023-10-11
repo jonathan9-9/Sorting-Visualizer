@@ -1,28 +1,51 @@
-export function getQuickSortAnimations(values, left=null, right=values.length - 1) {
-    if (left >= right || !values.length) {
-        return [];
-    }
-    const pivotIndex = partition(values, left, right);
+export function getQuickSortAnimations(
+    values,
+    left = 0,
+    right = values.length - 1,
+) {
     const animations = [];
-    animations.push([pivotIndex, right]);
 
-    const animationsLeft = getQuickSortAnimations(values, left, pivotIndex - 1);
-    const animationsRight = getQuickSortAnimations(values, pivotIndex + 1, right);
+    if (left < right) {
+        const pivotIndex = partition(values, left, right);
 
-    return [...animations, ...animationsLeft, ...animationsRight];
+        animations.push([pivotIndex, pivotIndex]);
+
+        const leftAnimations = getQuickSortAnimations(values, left, pivotIndex - 1);
+        const rightAnimations = getQuickSortAnimations(
+            values,
+            pivotIndex + 1,
+            right,
+        );
+
+        animations.push(...leftAnimations);
+        animations.push(...rightAnimations);
+    }
+
+    return animations;
 }
 
 function partition(values, left, right) {
     const pivot = values[right];
-    let star = left;
+    let i = left - 1;
 
-    for (let i = left; i < right; i++) {
-        if (values[i] < pivot) {
-            [values[star], values[i]] = [values[right], values[star]];
-            star++;
+    for (let j = left; j < right; j++) {
+        if (values[j] < pivot) {
+            i++;
+
+            [values[i], values[j]] = [values[j], values[i]];
         }
     }
 
-    [values[star], values[right]] = [values[right], values[star]];
-    return star;
+    [values[i + 1], values[right]] = [values[right], values[i + 1]];
+
+    return i + 1; // Return the index of the pivot element
 }
+
+// Sample input data (array to sort)
+const inputArray = [6, 3, 8, 2, 7, 4, 5, 1];
+
+// Call the getQuickSortAnimations function
+const animations = getQuickSortAnimations(inputArray);
+
+// Log the animations to see the result
+console.log(animations);
