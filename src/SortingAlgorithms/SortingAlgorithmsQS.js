@@ -48,4 +48,4 @@ const inputArray = [6, 3, 8, 2, 7, 4, 5, 1];
 const animations = getQuickSortAnimations(inputArray);
 
 // Log the animations to see the result
-console.log(animations);
+console.log(animations)

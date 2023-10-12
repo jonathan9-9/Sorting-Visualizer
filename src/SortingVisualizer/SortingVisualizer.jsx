@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import {getMergeSortAnimations} from '../SortingAlgorithms/SortingAlgorithms.js';
-import {getQuickSortAnimations} from '../SortingAlgorithms/SortingAlgorithmsQS.js';
+import { getMergeSortAnimations } from '../SortingAlgorithms/sortingAlgorithms'; // Correct letter casing
+import { getQuickSortAnimations } from '../SortingAlgorithms/SortingAlgorithmsQS'; // Correct letter casing
 import './SortingVisualizer.css';
-import { useRef,useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+
 
 // Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 5;
+const ANIMATION_SPEED_MS = 1;
 
 // Change this value for the number of bars (value) in the array.
 const NUMBER_OF_ARRAY_BARS = 325;
