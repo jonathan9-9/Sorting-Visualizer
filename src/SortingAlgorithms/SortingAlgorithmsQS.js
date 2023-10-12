@@ -1,51 +1,51 @@
-export function getQuickSortAnimations(
-    values,
-    left = 0,
-    right = values.length - 1,
-) {
+export function getQuickSortAnimations(arr) {
+
     const animations = [];
 
-    if (left < right) {
-        const pivotIndex = partition(values, left, right);
+    const stack = [];
+    stack.push(0);
+    stack.push(arr.length - 1);
 
-        animations.push([pivotIndex, pivotIndex]);
+    while (stack.length > 0) {
+        const high = stack.pop();
+        const low = stack.pop();
 
-        const leftAnimations = getQuickSortAnimations(values, left, pivotIndex - 1);
-        const rightAnimations = getQuickSortAnimations(
-            values,
-            pivotIndex + 1,
-            right,
-        );
+        const pivotIndex = partition(arr, low, high, animations);
 
-        animations.push(...leftAnimations);
-        animations.push(...rightAnimations);
+        if (low < pivotIndex - 1) {
+            stack.push(low);
+            stack.push(pivotIndex - 1);
+        }
+
+        if (pivotIndex + 1 < high) {
+            stack.push(pivotIndex + 1);
+            stack.push(high);
+        }
     }
 
     return animations;
 }
 
-function partition(values, left, right) {
-    const pivot = values[right];
-    let i = left - 1;
+function partition(arr, low, high, animations) {
+    const pivot = arr[high];
+    let i = low - 1;
 
-    for (let j = left; j < right; j++) {
-        if (values[j] < pivot) {
+    for (let j = low; j < high; j++) {
+        if (arr[j] < pivot) {
             i++;
-
-            [values[i], values[j]] = [values[j], values[i]];
+            animations.push([i, j]); // Track the indices being compared for animation
+            swap(arr, i, j);
         }
     }
 
-    [values[i + 1], values[right]] = [values[right], values[i + 1]];
+    animations.push([i + 1, high]); // Track the final pivot position
+    swap(arr, i + 1, high);
 
-    return i + 1; // Return the index of the pivot element
+    return i + 1;
 }
 
-// Sample input data (array to sort)
-const inputArray = [6, 3, 8, 2, 7, 4, 5, 1];
-
-// Call the getQuickSortAnimations function
-const animations = getQuickSortAnimations(inputArray);
-
-// Log the animations to see the result
-console.log(animations)
+function swap(arr, i, j) {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+}

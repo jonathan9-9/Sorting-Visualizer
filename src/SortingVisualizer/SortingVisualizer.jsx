@@ -21,15 +21,15 @@ export default function SortingVisualizer() {
 
   const [array, setArray] = useState([]);
 
-  const arrayBarsRef = useRef();
+  // const arrayBarsRef = useRef();
 
   useEffect(() => {
     resetArray();
   }, []);
 
-  useEffect(() => {
-    arrayBarsRef.current = document.getElementsByClassName('array-bar');
-  }, [array])
+  // useEffect(() => {
+  //   arrayBarsRef.current = document.getElementsByClassName('array-bar');
+  // }, [array])
 
   function resetArray() {
     const array = [];
@@ -64,35 +64,42 @@ export default function SortingVisualizer() {
     }
   }
 
-  function quickSort() {
+  async function quickSort() {
     const animations = getQuickSortAnimations(array);
+    const arrayBars = document.getElementsByClassName('array-bar');
 
-    for (let i = 0; i < animations.length; i++) {
-      const arrayBars = arrayBarsRef.current;
-      if(!arrayBars || !arrayBars.length) {
+    const animate = (i) => {
+      if (i >= animations.length) {
         return;
       }
 
       const isColorChange = i % 3 !== 2;
+
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];
         const barOneStyle = arrayBars[barOneIdx].style;
         const barTwoStyle = arrayBars[barTwoIdx].style;
         const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           barOneStyle.backgroundColor = color;
           barTwoStyle.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
+          animate(i + 1);
+        });
       } else {
-        setTimeout(() => {
-          const [barOneIdx, newHeight] = animations[i];
-          const barOneStyle = arrayBars[barOneIdx].style;
+        const [barOneIdx, newHeight] = animations[i];
+        const barOneStyle = arrayBars[barOneIdx].style;
+
+        requestAnimationFrame(() => {
           barOneStyle.height = `${newHeight}px`;
-        }, i * ANIMATION_SPEED_MS);
+          animate(i + 1);
+        });
       }
-    }
+    };
+
+    animate(0);
   }
+
 
   function heapSort() {
 
@@ -122,7 +129,7 @@ export default function SortingVisualizer() {
 
 }
 
-// From https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
+
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
